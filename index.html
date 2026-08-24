@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#7a3db0">
+<title>Detalles de Shey y Yesy</title>
+<style>
+:root{--p:#7a3db0;--p2:#a95bd0;--pink:#ed4d91;--bg:#faf5fc;--ink:#33243b;--muted:#76677d;--ok:#4d9b58;--danger:#c93661}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(135deg,#f6effa,#fff7fb);font-family:Arial,sans-serif;color:var(--ink)}
+.app{max-width:480px;margin:auto;min-height:100vh;background:#fff;box-shadow:0 0 35px #00000012}
+header{padding:25px 18px;color:#fff;text-align:center;background:linear-gradient(135deg,var(--p),var(--pink));border-radius:0 0 32px 32px}
+.logo{font-size:58px}header h1{margin:2px 0;font-size:29px}header p{margin:5px 0 0}
+nav{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:10px;position:sticky;top:0;background:#fff;z-index:20;box-shadow:0 2px 12px #0001}
+nav button{border:0;border-radius:13px;padding:10px 3px;background:#f1e7f8;color:#633292;font-weight:bold}
+section{padding:17px}.hero{background:linear-gradient(135deg,#fff0f7,#f6efff);padding:22px;border-radius:25px;text-align:center}
+.hero h2{color:#d8347e;margin:6px}.hero p{line-height:1.5}.pill{display:inline-block;background:#e8f7e7;color:#377d40;padding:7px 11px;border-radius:20px;font-size:12px;font-weight:bold}
+h2{color:var(--p)}h3{margin-bottom:7px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.card{background:#fff;border:1px solid #eadff0;border-radius:19px;padding:13px;box-shadow:0 5px 15px #0000000a}
+.product{display:flex;flex-direction:column}.product img,.placeholder{width:100%;height:155px;object-fit:cover;border-radius:14px}.placeholder{display:grid;place-items:center;background:#f7ecfa;font-size:54px}
+.price{font-size:19px;font-weight:800;color:var(--p);margin:5px 0}.old{font-size:12px;color:#999;text-decoration:line-through}
+.primary,.secondary,.danger,.success{width:100%;border:0;border-radius:12px;padding:12px;margin-top:7px;font-weight:bold;cursor:pointer}
+.primary{background:var(--pink);color:#fff}.secondary{background:#eee7f6;color:#60338d}.danger{background:#ffe3eb;color:#ad2851}.success{background:#e4f5e4;color:#377d40}
+input,textarea,select{width:100%;padding:12px;border:1px solid #ddd;border-radius:12px;margin:5px 0 11px;font:inherit}label{font-weight:bold;font-size:14px}
+.hidden{display:none!important}.admin{background:#f8f1ff;border:2px dashed #9b67ca}.row{display:flex;gap:8px}.row>*{flex:1}
+.small{font-size:12px;color:var(--muted);line-height:1.45}.empty{text-align:center;padding:25px;color:var(--muted)}
+.search{position:relative}.search input{padding-left:38px}.search span{position:absolute;left:13px;top:16px}
+.stat{display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px solid #eee}.stat:last-child{border:0}
+footer{text-align:center;padding:20px;color:#806d87;font-size:12px}
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:#33243b;color:white;padding:12px 17px;border-radius:13px;display:none;z-index:99;max-width:90%}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+<div class="logo">💐✨</div>
+<h1>Detalles de Shey y Yesy</h1>
+<p>Regalos personalizados para momentos especiales 💖</p>
+</header>
+
+<nav>
+<button onclick="show('inicio')">🏠<br>Inicio</button>
+<button onclick="show('tienda')">🎁<br>Tienda</button>
+<button onclick="show('pedido')">🛒<br>Pedido</button>
+<button onclick="show('admin')">🔐<br>Creadora</button>
+</nav>
+
+<main>
+<section id="inicio">
+<div class="hero">
+<div style="font-size:50px">🌷💝🌸</div>
+<h2>Un detalle hecho para ti</h2>
+<p>Encuentra flores y regalos personalizados de <b>Detalles de Shey y Yesy</b>.</p>
+<span class="pill">✨ Hecho con amor</span>
+<button class="primary" onclick="show('tienda')">Ver catálogo</button>
+</div>
+<h3>¿Por qué elegirnos?</h3>
+<div class="grid">
+<div class="card">🌸 <b>Flores</b><br><span class="small">Diseños bonitos y duraderos.</span></div>
+<div class="card">🎁 <b>Regalos</b><br><span class="small">Para cumpleaños y ocasiones especiales.</span></div>
+<div class="card">🎨 <b>Personalizados</b><br><span class="small">Colores, mensajes y detalles a tu gusto.</span></div>
+<div class="card">📲 <b>Pedidos fáciles</b><br><span class="small">Solicita tu producto desde la app.</span></div>
+</div>
+</section>
+
+<section id="tienda" class="hidden">
+<h2>🎁 Catálogo</h2>
+<div class="search"><span>🔎</span><input id="search" placeholder="Buscar producto..." oninput="renderProducts()"></div>
+<div id="products" class="grid"></div>
+</section>
+
+<section id="pedido" class="hidden">
+<h2>🛒 Tu pedido</h2>
+<div class="card">
+<form onsubmit="sendOrder(event)">
+<label>Producto</label><input id="producto" required>
+<label>Nombre</label><input id="nombre" required>
+<label>Cantidad</label><input id="cantidad" type="number" min="1" value="1" required>
+<label>Color o personalización</label><input id="personalizacion" placeholder="Ej.: rosado, morado, nombre...">
+<label>Mensaje para la tarjeta</label><textarea id="mensaje" rows="3"></textarea>
+<label>Entrega</label>
+<select id="entrega"><option>Recojo en punto acordado</option><option>Entrega a domicilio</option></select>
+<button class="primary">📲 Enviar pedido por WhatsApp</button>
+</form>
+</div>
+</section>
+
+<section id="admin" class="hidden">
+<div id="login" class="card admin">
+<h2>🔐 Área de creadora</h2>
+<p>Este espacio permite administrar tu tienda.</p>
+<label>Clave</label><input id="pin" type="password" inputmode="numeric" placeholder="Clave de creadora">
+<button class="primary" onclick="login()">Entrar al panel</button>
+<p class="small">Clave inicial: <b>2580</b>. Puedes cambiarla después.</p>
+</div>
+
+<div id="panel" class="hidden">
+<div class="card admin">
+<h2>⚙️ Panel de Shey y Yesy</h2>
+<div class="stat"><span>Productos</span><b id="totalProducts">0</b></div>
+<div class="stat"><span>Productos con imagen</span><b id="withImages">0</b></div>
+<div class="row">
+<button class="secondary" onclick="changePin()">🔑 Cambiar clave</button>
+<button class="secondary" onclick="logout()">Salir</button>
+</div>
+</div>
+
+<div class="card" style="margin-top:12px">
+<h3>➕ Agregar producto</h3>
+<label>Nombre</label><input id="newName" placeholder="Ej. Ramo de rosas">
+<label>Precio (S/)</label><input id="newPrice" type="number" min="0" step="0.50" placeholder="35">
+<label>Precio anterior (opcional)</label><input id="newOldPrice" type="number" min="0" step="0.50" placeholder="40">
+<label>Descripción</label><textarea id="newDesc" rows="2" placeholder="Describe el producto"></textarea>
+<label>Imagen del producto</label><input id="newImg" type="file" accept="image/*" onchange="previewImage(event)">
+<img id="preview" class="hidden" style="width:100%;height:160px;object-fit:cover;border-radius:13px;margin-top:5px">
+<div class="row">
+<button class="primary" onclick="addProduct()">💾 Guardar producto</button>
+<button class="secondary" onclick="clearForm()">Limpiar</button>
+</div>
+</div>
+
+<h3>✏️ Administrar productos</h3>
+<div id="adminProducts"></div>
+</div>
+</section>
+</main>
+<footer>💖 Detalles de Shey y Yesy · Crea y Emprende 💖</footer>
+</div>
+<div id="toast" class="toast"></div>
+
+<script>
+const STORE='shey_yesy_products_v3', PINKEY='shey_yesy_pin_v3';
+let products=loadProducts(), imageData='', editingId=null;
+
+function loadProducts(){
+ try{
+  const saved=localStorage.getItem(STORE);
+  if(saved) return JSON.parse(saved);
+ }catch(e){}
+ return [
+  {id:1,name:'Ramo de flores',price:35,oldPrice:0,desc:'Un detalle colorido y especial.',img:''},
+  {id:2,name:'Caja sorpresa',price:45,oldPrice:0,desc:'Personalizada para una ocasión especial.',img:''},
+  {id:3,name:'Detalle personalizado',price:30,oldPrice:0,desc:'Diseñado especialmente para ti.',img:''}
+ ];
+}
+function save(){
+ try{localStorage.setItem(STORE,JSON.stringify(products));return true}
+ catch(e){alert('No hay suficiente espacio para guardar estos datos. Prueba con una imagen más pequeña.');return false}
+}
+function show(id){
+ document.querySelectorAll('main section').forEach(x=>x.classList.add('hidden'));
+ document.getElementById(id).classList.remove('hidden');window.scrollTo(0,0);
+ if(id==='tienda')renderProducts();
+ if(id==='admin')renderAdmin();
+}
+function renderProducts(){
+ const box=document.getElementById('products'), q=(document.getElementById('search')?.value||'').toLowerCase().trim();
+ const list=products.filter(p=>(p.name+' '+p.desc).toLowerCase().includes(q));
+ box.innerHTML='';
+ if(!list.length){box.innerHTML='<div class="empty" style="grid-column:1/-1">🌸 No encontramos ese producto.</div>';return}
+ list.forEach(p=>{
+  const d=document.createElement('div');d.className='card product';
+  d.innerHTML=(p.img?`<img src="${p.img}" alt="">`:`<div class="placeholder">🎁</div>`)
+  +`<h3>${esc(p.name)}</h3><p class="small">${esc(p.desc||'')}</p>`
+  +(p.oldPrice>p.price?`<span class="old">S/ ${Number(p.oldPrice).toFixed(2)}</span>`:'')
+  +`<div class="price">S/ ${Number(p.price).toFixed(2)}</div>
+  <button class="primary" onclick="order(${p.id})">🛒 Pedir</button>`;
+  box.appendChild(d);
+ });
+}
+function order(id){const p=products.find(x=>x.id===id);document.getElementById('producto').value=p.name;show('pedido')}
+function sendOrder(e){
+ e.preventDefault();
+ const msg=`Hola, Detalles de Shey y Yesy 💖%0AQuiero hacer un pedido.%0A%0AProducto: ${document.getElementById('producto').value}%0ACantidad: ${document.getElementById('cantidad').value}%0ANombre: ${document.getElementById('nombre').value}%0APersonalización: ${document.getElementById('personalizacion').value}%0AMensaje: ${document.getElementById('mensaje').value}%0AEntrega: ${document.getElementById('entrega').value}`;
+ window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank');
+}
+function login(){
+ const p=document.getElementById('pin').value;
+ if(p===(localStorage.getItem(PINKEY)||'2580')){
+  document.getElementById('login').classList.add('hidden');document.getElementById('panel').classList.remove('hidden');
+  sessionStorage.setItem('creator','1');renderAdmin();toast('🔓 Panel de creadora abierto');
+ }else alert('❌ Clave incorrecta.');
+}
+function logout(){sessionStorage.removeItem('creator');document.getElementById('panel').classList.add('hidden');document.getElementById('login').classList.remove('hidden');document.getElementById('pin').value='';}
+function changePin(){const p=prompt('Nueva clave (mínimo 4 caracteres):');if(p&&p.length>=4){localStorage.setItem(PINKEY,p);toast('🔑 Clave actualizada');}}
+function previewImage(e){
+ const f=e.target.files[0];if(!f)return;
+ if(f.size>8*1024*1024){alert('La imagen es demasiado grande. Elige una menor de 8 MB.');e.target.value='';return}
+ const r=new FileReader();r.onload=()=>{imageData=r.result;const im=document.getElementById('preview');im.src=imageData;im.classList.remove('hidden')};r.readAsDataURL(f);
+}
+function compressImage(data){
+ return new Promise(resolve=>{
+  const im=new Image();im.onload=()=>{
+   const max=900,scale=Math.min(1,max/im.width,max/im.height),w=Math.max(1,Math.round(im.width*scale)),h=Math.max(1,Math.round(im.height*scale));
+   const c=document.createElement('canvas');c.width=w;c.height=h;c.getContext('2d').drawImage(im,0,0,w,h);resolve(c.toDataURL('image/jpeg',.78));
+  };im.onerror=()=>resolve(data);im.src=data;
+ });
+}
+async function addProduct(){
+ const n=document.getElementById('newName').value.trim(),pr=parseFloat(document.getElementById('newPrice').value),old=parseFloat(document.getElementById('newOldPrice').value)||0,de=document.getElementById('newDesc').value.trim();
+ if(!n){alert('Escribe el nombre del producto.');return}
+ if(isNaN(pr)||pr<0){alert('Escribe un precio válido.');return}
+ let img=imageData;if(img)img=await compressImage(img);
+ const product={id:Date.now(),name:n,price:pr,oldPrice:old,desc:de,img:img||''};
+ products.push(product);
+ if(!save()){products.pop();return}
+ clearForm();renderProducts();renderAdmin();toast('✅ Producto guardado correctamente');
+}
+function clearForm(){
+ ['newName','newPrice','newOldPrice','newDesc','newImg'].forEach(id=>document.getElementById(id).value='');
+ imageData='';editingId=null;document.getElementById('preview').classList.add('hidden');document.getElementById('preview').removeAttribute('src');
+}
+function renderAdmin(){
+ const panel=document.getElementById('panel');if(panel.classList.contains('hidden'))return;
+ document.getElementById('totalProducts').textContent=products.length;
+ document.getElementById('withImages').textContent=products.filter(p=>p.img).length;
+ const box=document.getElementById('adminProducts');box.innerHTML='';
+ if(!products.length){box.innerHTML='<div class="empty">No tienes productos todavía.</div>';return}
+ products.forEach(p=>{
+  const d=document.createElement('div');d.className='card';d.style.marginBottom='10px';
+  d.innerHTML=`<div style="display:flex;gap:10px;align-items:center">
+  ${p.img?`<img src="${p.img}" style="width:70px;height:70px;object-fit:cover;border-radius:12px">`:'<div style="width:70px;height:70px;border-radius:12px;background:#f7ecfa;display:grid;place-items:center;font-size:30px">🎁</div>'}
+  <div><b>${esc(p.name)}</b><br><span class="price">S/ ${Number(p.price).toFixed(2)}</span></div></div>
+  <div class="row"><button class="secondary" onclick="editProduct(${p.id})">✏️ Editar</button><button class="danger" onclick="deleteProduct(${p.id})">🗑️ Eliminar</button></div>`;
+  box.appendChild(d);
+ });
+}
+function editProduct(id){
+ const p=products.find(x=>x.id===id);
+ const n=prompt('Nombre del producto:',p.name);if(n===null)return;
+ const pr=prompt('Precio en soles:',p.price);if(pr===null)return;
+ const de=prompt('Descripción:',p.desc||'');if(de===null)return;
+ if(!n.trim()||isNaN(parseFloat(pr))){alert('Datos inválidos.');return}
+ p.name=n.trim();p.price=parseFloat(pr);p.desc=de;
+ if(save()){renderProducts();renderAdmin();toast('✏️ Producto actualizado')}
+}
+function deleteProduct(id){
+ if(confirm('¿Seguro que deseas eliminar este producto?')){products=products.filter(p=>p.id!==id);if(save()){renderProducts();renderAdmin();toast('🗑️ Producto eliminado')}}
+}
+function toast(t){const x=document.getElementById('toast');x.textContent=t;x.style.display='block';setTimeout(()=>x.style.display='none',2200)}
+function esc(s){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
+renderProducts();
+if(sessionStorage.getItem('creator')==='1'){document.getElementById('login').classList.add('hidden');document.getElementById('panel').classList.remove('hidden');renderAdmin()}
+</script>
+</body>
+</html>
